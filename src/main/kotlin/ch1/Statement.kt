@@ -7,18 +7,21 @@ fun statement(invoice: Invoice, plays: Map<String, Play>): String {
     var totalAmount = 0
     var volumeCredits = 0
     var result = "청구 내역 (고객명: ${invoice.customer})\n"
-    val format = NumberFormat.getCurrencyInstance(Locale.US).apply { minimumFractionDigits = 2 }
 
     invoice.performances.forEach { perf ->
         volumeCredits += volumeCreditsFor(perf)
 
         // 청구 내역 출력
-        result += " ${playFor(perf).name}: ${format.format(amountFor(perf) / 100)} (${perf.audience}석)\n"
+        result += " ${playFor(perf).name}: ${format(amountFor(perf) / 100)} (${perf.audience}석)\n"
         totalAmount += amountFor(perf)
     }
-    result += "총액: ${format.format(totalAmount / 100)}\n"
+    result += "총액: ${format(totalAmount / 100)}\n"
     result += "적립 포인트: ${volumeCredits}점\n"
     return result
+}
+
+private fun format(number: Int): String {
+    return NumberFormat.getCurrencyInstance(Locale.US).apply { minimumFractionDigits = 2 }.format(number)
 }
 
 private fun volumeCreditsFor(perf: Performance): Int {
