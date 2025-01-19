@@ -10,15 +10,13 @@ fun statement(invoice: Invoice, plays: Map<String, Play>): String {
         result += " ${playFor(perf).name}: ${usd(amountFor(perf))} (${perf.audience}석)\n"
     }
 
-    fun appleSauce(): Int {
+    fun totalAmount(): Int {
         var totalAmount = 0
         invoice.performances.forEach { perf ->
             totalAmount += amountFor(perf)
         }
         return totalAmount
     }
-
-    val totalAmount = appleSauce()
 
     fun totalVolumeCredits(): Int {
         var volumeCredits = 0
@@ -28,7 +26,7 @@ fun statement(invoice: Invoice, plays: Map<String, Play>): String {
         return volumeCredits
     }
 
-    result += "총액: ${usd(totalAmount)}\n"
+    result += "총액: ${usd(totalAmount())}\n"
     result += "적립 포인트: ${totalVolumeCredits()}점\n"
     return result
 }
