@@ -14,10 +14,15 @@ fun statement(invoice: Invoice, plays: Map<String, Play>): String {
         totalAmount += amountFor(perf)
     }
 
-    var volumeCredits = 0
-    invoice.performances.forEach { perf ->
-        volumeCredits += volumeCreditsFor(perf)
+    fun totalVolumeCredits(): Int {
+        var volumeCredits = 0
+        invoice.performances.forEach { perf ->
+            volumeCredits += volumeCreditsFor(perf)
+        }
+        return volumeCredits
     }
+
+    val volumeCredits = totalVolumeCredits()
 
     result += "총액: ${usd(totalAmount)}\n"
     result += "적립 포인트: ${volumeCredits}점\n"
