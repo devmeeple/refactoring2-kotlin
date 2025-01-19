@@ -4,15 +4,21 @@ import java.text.NumberFormat
 import java.util.*
 
 fun statement(invoice: Invoice, plays: Map<String, Play>): String {
-    var totalAmount = 0
     var result = "청구 내역 (고객명: ${invoice.customer})\n"
 
     invoice.performances.forEach { perf ->
-
-        // 청구 내역 출력
         result += " ${playFor(perf).name}: ${usd(amountFor(perf))} (${perf.audience}석)\n"
-        totalAmount += amountFor(perf)
     }
+
+    fun appleSauce(): Int {
+        var totalAmount = 0
+        invoice.performances.forEach { perf ->
+            totalAmount += amountFor(perf)
+        }
+        return totalAmount
+    }
+
+    val totalAmount = appleSauce()
 
     fun totalVolumeCredits(): Int {
         var volumeCredits = 0
