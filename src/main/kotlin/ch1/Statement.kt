@@ -28,27 +28,27 @@ fun statement(invoice: Invoice, plays: Map<String, Play>): String {
 }
 
 private fun amountFor(play: Play, perf: Performance): Int {
-    var thisAmount: Int
+    var result: Int
 
     when (play.type) {
         "tragedy" -> { // 비극
-            thisAmount = 40000
+            result = 40000
             if (perf.audience > 30) {
-                thisAmount += 1000 * (perf.audience - 30)
+                result += 1000 * (perf.audience - 30)
             }
         }
 
         "comedy" -> { // 희극
-            thisAmount = 30000
+            result = 30000
             if (perf.audience > 20) {
-                thisAmount += 10000 + 500 * (perf.audience - 20)
+                result += 10000 + 500 * (perf.audience - 20)
             }
-            thisAmount += 300 * perf.audience
+            result += 300 * perf.audience
         }
 
         else -> {
             throw IllegalArgumentException("알 수 없는 장르: ${play.type}")
         }
     }
-    return thisAmount
+    return result
 }
