@@ -4,6 +4,10 @@ import java.text.NumberFormat
 import java.util.*
 
 fun statement(invoice: Invoice, plays: Map<String, Play>): String {
+    return renderPlainText(invoice, plays)
+}
+
+fun renderPlainText(invoice: Invoice, plays: Map<String, Play>): String {
     fun playFor(performance: Performance) = ch1.plays[performance.playID]!!
 
     fun amountFor(performance: Performance): Int {
