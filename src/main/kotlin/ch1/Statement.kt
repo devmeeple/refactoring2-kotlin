@@ -11,28 +11,7 @@ fun statement(invoice: Invoice, plays: Map<String, Play>): String {
 
     invoice.performances.forEach { perf ->
         val play = plays[perf.playID]!!
-        var thisAmount = 0
-
-        when (play.type) {
-            "tragedy" -> { // 비극
-                thisAmount = 40000
-                if (perf.audience > 30) {
-                    thisAmount += 1000 * (perf.audience - 30)
-                }
-            }
-
-            "comedy" -> { // 희극
-                thisAmount = 30000
-                if (perf.audience > 20) {
-                    thisAmount += 10000 + 500 * (perf.audience - 20)
-                }
-                thisAmount += 300 * perf.audience
-            }
-
-            else -> {
-                throw IllegalArgumentException("알 수 없는 장르: ${play.type}")
-            }
-        }
+        val thisAmount = amountFor(play, perf)
 
         // 포인트 적립
         volumeCredits += maxOf(perf.audience - 30, 0)
@@ -46,4 +25,30 @@ fun statement(invoice: Invoice, plays: Map<String, Play>): String {
     result += "총액: ${format.format(totalAmount / 100)}\n"
     result += "적립 포인트: ${volumeCredits}점\n"
     return result
+}
+
+private fun amountFor(play: Play, perf: Performance): Int {
+    var thisAmount: Int
+
+    when (play.type) {
+        "tragedy" -> { // 비극
+            thisAmount = 40000
+            if (perf.audience > 30) {
+                thisAmount += 1000 * (perf.audience - 30)
+            }
+        }
+
+        "comedy" -> { // 희극
+            thisAmount = 30000
+            if (perf.audience > 20) {
+                thisAmount += 10000 + 500 * (perf.audience - 20)
+            }
+            thisAmount += 300 * perf.audience
+        }
+
+        else -> {
+            throw IllegalArgumentException("알 수 없는 장르: ${play.type}")
+        }
+    }
+    return thisAmount
 }
