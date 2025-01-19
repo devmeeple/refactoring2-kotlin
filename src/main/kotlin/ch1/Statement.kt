@@ -10,11 +10,7 @@ fun statement(invoice: Invoice, plays: Map<String, Play>): String {
     val format = NumberFormat.getCurrencyInstance(Locale.US).apply { minimumFractionDigits = 2 }
 
     invoice.performances.forEach { perf ->
-
-        // 포인트 적립
-        volumeCredits += maxOf(perf.audience - 30, 0)
-        // 희극 관객 5명 마다 추가 포인트 제공
-        if ("comedy" == playFor(perf).type) volumeCredits += perf.audience / 5
+        volumeCredits += volumeCreditsFor(perf)
 
         // 청구 내역 출력
         result += " ${playFor(perf).name}: ${format.format(amountFor(perf) / 100)} (${perf.audience}석)\n"
@@ -23,6 +19,14 @@ fun statement(invoice: Invoice, plays: Map<String, Play>): String {
     result += "총액: ${format.format(totalAmount / 100)}\n"
     result += "적립 포인트: ${volumeCredits}점\n"
     return result
+}
+
+private fun volumeCreditsFor(perf: Performance): Int {
+    var volumeCredits = 0
+    volumeCredits += maxOf(perf.audience - 30, 0)
+    if ("comedy" == playFor(perf).type) volumeCredits += perf.audience / 5
+
+    return volumeCredits
 }
 
 private fun playFor(performance: Performance) = plays[performance.playID]!!
