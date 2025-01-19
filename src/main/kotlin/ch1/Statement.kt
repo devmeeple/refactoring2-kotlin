@@ -3,11 +3,17 @@ package ch1
 import java.text.NumberFormat
 import java.util.*
 
+data class StatementData(
+    val customer: String,
+    val performances: List<Performance>
+)
+
 fun statement(invoice: Invoice, plays: Map<String, Play>): String {
-    return renderPlainText(invoice, plays)
+    val statementData = StatementData(invoice.customer, invoice.performances)
+    return renderPlainText(statementData, plays)
 }
 
-fun renderPlainText(invoice: Invoice, plays: Map<String, Play>): String {
+fun renderPlainText(data: StatementData, plays: Map<String, Play>): String {
     fun playFor(performance: Performance) = ch1.plays[performance.playID]!!
 
     fun amountFor(performance: Performance): Int {
@@ -46,7 +52,7 @@ fun renderPlainText(invoice: Invoice, plays: Map<String, Play>): String {
 
     fun totalAmount(): Int {
         var result = 0
-        invoice.performances.forEach { perf ->
+        data.performances.forEach { perf ->
             result += amountFor(perf)
         }
         return result
@@ -54,7 +60,7 @@ fun renderPlainText(invoice: Invoice, plays: Map<String, Play>): String {
 
     fun totalVolumeCredits(): Int {
         var result = 0
-        invoice.performances.forEach { perf ->
+        data.performances.forEach { perf ->
             result += volumeCreditsFor(perf)
         }
         return result
@@ -64,9 +70,9 @@ fun renderPlainText(invoice: Invoice, plays: Map<String, Play>): String {
         return NumberFormat.getCurrencyInstance(Locale.US).apply { minimumFractionDigits = 2 }.format(number / 100)
     }
 
-    var result = "청구 내역 (고객명: ${invoice.customer})\n"
+    var result = "청구 내역 (고객명: ${data.customer})\n"
 
-    invoice.performances.forEach { perf ->
+    data.performances.forEach { perf ->
         result += " ${playFor(perf).name}: ${usd(amountFor(perf))} (${perf.audience}석)\n"
     }
 
