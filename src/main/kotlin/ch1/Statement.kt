@@ -5,7 +5,6 @@ import java.util.*
 
 fun statement(invoice: Invoice, plays: Map<String, Play>): String {
     var totalAmount = 0
-    var volumeCredits = 0
     var result = "청구 내역 (고객명: ${invoice.customer})\n"
 
     invoice.performances.forEach { perf ->
@@ -15,6 +14,7 @@ fun statement(invoice: Invoice, plays: Map<String, Play>): String {
         totalAmount += amountFor(perf)
     }
 
+    var volumeCredits = 0
     invoice.performances.forEach { perf ->
         volumeCredits += volumeCreditsFor(perf)
     }
