@@ -10,7 +10,7 @@ fun statement(invoice: Invoice, plays: Map<String, Play>): String {
     val format = NumberFormat.getCurrencyInstance(Locale.US).apply { minimumFractionDigits = 2 }
 
     invoice.performances.forEach { perf ->
-        val play = plays[perf.playID]!!
+        val play = playFor(perf)
         val thisAmount = amountFor(play, perf)
 
         // 포인트 적립
@@ -26,6 +26,8 @@ fun statement(invoice: Invoice, plays: Map<String, Play>): String {
     result += "적립 포인트: ${volumeCredits}점\n"
     return result
 }
+
+private fun playFor(performance: Performance) = plays[performance.playID]!!
 
 private fun amountFor(play: Play, performance: Performance): Int {
     var result: Int
