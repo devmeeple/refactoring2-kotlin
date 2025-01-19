@@ -10,7 +10,6 @@ fun statement(invoice: Invoice, plays: Map<String, Play>): String {
     val format = NumberFormat.getCurrencyInstance(Locale.US).apply { minimumFractionDigits = 2 }
 
     invoice.performances.forEach { perf ->
-        val thisAmount = amountFor(perf)
 
         // 포인트 적립
         volumeCredits += maxOf(perf.audience - 30, 0)
@@ -18,8 +17,8 @@ fun statement(invoice: Invoice, plays: Map<String, Play>): String {
         if ("comedy" == playFor(perf).type) volumeCredits += perf.audience / 5
 
         // 청구 내역 출력
-        result += " ${playFor(perf).name}: ${format.format(thisAmount / 100)} (${perf.audience}석)\n"
-        totalAmount += thisAmount
+        result += " ${playFor(perf).name}: ${format.format(amountFor(perf) / 100)} (${perf.audience}석)\n"
+        totalAmount += amountFor(perf)
     }
     result += "총액: ${format.format(totalAmount / 100)}\n"
     result += "적립 포인트: ${volumeCredits}점\n"
