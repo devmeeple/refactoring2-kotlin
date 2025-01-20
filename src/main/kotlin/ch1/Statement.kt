@@ -12,7 +12,10 @@ data class EnrichedPerformance(
     val playID: String,
     val audience: Int,
     val play: Play,
-    var amount: Int = 0
+
+    // TODO: 2025.01.20 lateinit primitive type
+    var amount: Int = 0,
+    var volumeCredits: Int = 0
 )
 
 fun statement(invoice: Invoice, plays: Map<String, Play>): String {
@@ -44,10 +47,19 @@ fun statement(invoice: Invoice, plays: Map<String, Play>): String {
         return result
     }
 
+    fun volumeCreditsFor(performance: EnrichedPerformance): Int {
+        var result = 0
+        result += maxOf(performance.audience - 30, 0)
+        if ("comedy" == performance.play.type) result += performance.audience / 5
+
+        return result
+    }
+
     fun enrichPerformance(performance: Performance): EnrichedPerformance {
-        // TODO: 2025.01.20 
+        // TODO: 2025.01.20
         return EnrichedPerformance(performance.playID, performance.audience, playFor(performance)).apply {
             amount = amountFor(this)
+            volumeCredits = volumeCreditsFor(this)
         }
     }
 
@@ -56,14 +68,6 @@ fun statement(invoice: Invoice, plays: Map<String, Play>): String {
 }
 
 fun renderPlainText(data: StatementData, plays: Map<String, Play>): String {
-
-    fun volumeCreditsFor(performance: EnrichedPerformance): Int {
-        var result = 0
-        result += maxOf(performance.audience - 30, 0)
-        if ("comedy" == performance.play.type) result += performance.audience / 5
-
-        return result
-    }
 
     fun totalAmount(): Int {
         var result = 0
@@ -76,7 +80,7 @@ fun renderPlainText(data: StatementData, plays: Map<String, Play>): String {
     fun totalVolumeCredits(): Int {
         var result = 0
         data.performances.forEach { perf ->
-            result += volumeCreditsFor(perf)
+            result += perf.volumeCredits
         }
         return result
     }
