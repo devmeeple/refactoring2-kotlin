@@ -5,13 +5,20 @@ import java.util.*
 
 data class StatementData(
     val customer: String,
-    val performances: List<Performance>
+    val performances: List<EnrichedPerformance>
+)
+
+data class EnrichedPerformance(
+    val playID: String,
+    val audience: Int,
+    val play: Play
 )
 
 fun statement(invoice: Invoice, plays: Map<String, Play>): String {
-    fun enrichPerformance(performance: Performance): Performance {
-        val result = performance.copy()
-        return result
+    fun playFor(performance: Performance) = plays[performance.playID]!!
+
+    fun enrichPerformance(performance: Performance): EnrichedPerformance {
+        return EnrichedPerformance(performance.playID, performance.audience, playFor(performance))
     }
 
     val statementData = StatementData(invoice.customer, invoice.performances.map { enrichPerformance(it) })
@@ -19,12 +26,11 @@ fun statement(invoice: Invoice, plays: Map<String, Play>): String {
 }
 
 fun renderPlainText(data: StatementData, plays: Map<String, Play>): String {
-    fun playFor(performance: Performance) = ch1.plays[performance.playID]!!
 
-    fun amountFor(performance: Performance): Int {
+    fun amountFor(performance: EnrichedPerformance): Int {
         var result: Int
 
-        when (playFor(performance).type) {
+        when (performance.play.type) {
             "tragedy" -> { // 비극
                 result = 40000
                 if (performance.audience > 30) {
@@ -41,16 +47,16 @@ fun renderPlainText(data: StatementData, plays: Map<String, Play>): String {
             }
 
             else -> {
-                throw IllegalArgumentException("알 수 없는 장르: ${playFor(performance).type}")
+                throw IllegalArgumentException("알 수 없는 장르: ${performance.play.type}")
             }
         }
         return result
     }
 
-    fun volumeCreditsFor(perf: Performance): Int {
+    fun volumeCreditsFor(performance: EnrichedPerformance): Int {
         var result = 0
-        result += maxOf(perf.audience - 30, 0)
-        if ("comedy" == playFor(perf).type) result += perf.audience / 5
+        result += maxOf(performance.audience - 30, 0)
+        if ("comedy" == performance.play.type) result += performance.audience / 5
 
         return result
     }
@@ -78,7 +84,7 @@ fun renderPlainText(data: StatementData, plays: Map<String, Play>): String {
     var result = "청구 내역 (고객명: ${data.customer})\n"
 
     data.performances.forEach { perf ->
-        result += " ${playFor(perf).name}: ${usd(amountFor(perf))} (${perf.audience}석)\n"
+        result += " ${perf.play.name}: ${usd(amountFor(perf))} (${perf.audience}석)\n"
     }
 
     result += "총액: ${usd(totalAmount())}\n"
