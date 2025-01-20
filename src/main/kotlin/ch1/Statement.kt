@@ -6,7 +6,8 @@ import java.util.*
 data class StatementData(
     val customer: String,
     val performances: List<EnrichedPerformance>,
-    var totalAmount: Int = 0
+    var totalAmount: Int = 0,
+    var totalVolumeCredits: Int = 0
 )
 
 data class EnrichedPerformance(
@@ -64,6 +65,14 @@ fun statement(invoice: Invoice, plays: Map<String, Play>): String {
         return result
     }
 
+    fun totalVolumeCredits(data: StatementData): Int {
+        var result = 0
+        data.performances.forEach { perf ->
+            result += perf.volumeCredits
+        }
+        return result
+    }
+
     fun enrichPerformance(performance: Performance): EnrichedPerformance {
         // TODO: 2025.01.20
         return EnrichedPerformance(performance.playID, performance.audience, playFor(performance)).apply {
@@ -75,19 +84,12 @@ fun statement(invoice: Invoice, plays: Map<String, Play>): String {
     // TODO: 2025.01.20 apply? this?
     val statementData = StatementData(invoice.customer, invoice.performances.map { enrichPerformance(it) }).apply {
         totalAmount = totalAmount(this)
+        totalVolumeCredits = totalVolumeCredits(this)
     }
     return renderPlainText(statementData, plays)
 }
 
 fun renderPlainText(data: StatementData, plays: Map<String, Play>): String {
-
-    fun totalVolumeCredits(): Int {
-        var result = 0
-        data.performances.forEach { perf ->
-            result += perf.volumeCredits
-        }
-        return result
-    }
 
     fun usd(number: Int): String {
         return NumberFormat.getCurrencyInstance(Locale.US).apply { minimumFractionDigits = 2 }.format(number / 100)
@@ -100,6 +102,6 @@ fun renderPlainText(data: StatementData, plays: Map<String, Play>): String {
     }
 
     result += "총액: ${usd(data.totalAmount)}\n"
-    result += "적립 포인트: ${totalVolumeCredits()}점\n"
+    result += "적립 포인트: ${data.totalVolumeCredits}점\n"
     return result
 }
