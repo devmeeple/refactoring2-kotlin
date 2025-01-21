@@ -58,19 +58,11 @@ fun statement(invoice: Invoice, plays: Map<String, Play>): String {
     }
 
     fun totalAmount(data: StatementData): Int {
-        var result = 0
-        data.performances.forEach { perf ->
-            result += perf.amount
-        }
-        return result
+        return data.performances.fold(0) { total, p -> total + p.amount }
     }
 
     fun totalVolumeCredits(data: StatementData): Int {
-        var result = 0
-        data.performances.forEach { perf ->
-            result += perf.volumeCredits
-        }
-        return result
+        return data.performances.fold(0) { total, p -> total + p.volumeCredits }
     }
 
     fun enrichPerformance(performance: Performance): EnrichedPerformance {
