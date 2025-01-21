@@ -1,5 +1,7 @@
 # 1. 리팩터링: 첫 번째 예시
 
+# 첫 번째 발자국(2025-01-19)
+
 - Kotest
 - 직렬화(Serialization) vs. 역직렬화(Deserialization)
 - String templates
@@ -18,3 +20,54 @@
 - [Kotlin Docs 'Serialization'](https://kotlinlang.org/docs/serialization.html)
 - [Kotlin Docs 'Strings - String templates'](https://kotlinlang.org/docs/serialization.html)
 - [IntelliJ IDEA Documentation 'Code refactoring'](https://www.jetbrains.com/help/idea/refactoring-source-code.html)
+
+# 두 번째 발자국(2025-01-20)
+
+## 1.6 계산 단계와 포맷팅 단계 분리하기
+
+- **목표**: 계산 관련 코드와 포맷팅 코드를 분리한다.
+
+**중간 데이터 구조 생성하기**
+
+> 중간 데이터 구조란 `DTO(Data Transfer Object)`를 의미한다.
+
+- `invoice`, `plays`를 통해 전달되는 `JSON` 데이터를 중간 데이터 구조를 사용해서 전달한다.
+  - 보강한 `data class`를 선언한다.
+- `statement`: 계산 관련 로직
+- `rederPlainText`: 데이터 포맷팅
+
+### Todo
+
+> 8.1 Move Function(함수 옮기기)
+
+1. 고객 정보(customer) 옮기기
+2. 공연 정보(performances) 옮기기
+3. 연극 정보 옮기기
+4. `amountFor` 옮기기
+
+**amountFor 옮기기**
+
+> 간결한 Kotlin 문법, 어떻게 활용할 것인가?
+
+5. 적립 포인트 옮기기
+6. 총합 계산 옮기기
+
+**<참고 자료>**
+
+- [martinFowler 'Data Transfer Object'](https://martinfowler.com/eaaCatalog/dataTransferObject.html)
+
+7. 반복문을 파이프라인으로 바꾸기
+
+> 8.8 Replace Loop with Pipeline(반복문을 파이프라인으로 바꾸기)
+
+**fold vs. reduce**
+
+`JavaScript` 버릇이 여든까지 간다. 습관적으로 `reudce`를 사용했다. (심지어 책에서도 `reudce`를 사용한다) 하지만 `fold`를 사용해서 문제를 해결할 수 있었고
+비슷해 보이지만 달랐다. 어떤 상황에 사용하면 좋을까?
+
+- 타입 변환, 초깃값
+
+**<참고 자료>**
+
+- [Kotlin Docs 'Aggregate operations'](https://kotlinlang.org/docs/collection-aggregate.html)
+- [Baeldung 'Difference Between fold and reduce in Kotlin'](https://www.baeldung.com/kotlin/fold-vs-reduce)
