@@ -15,46 +15,53 @@ data class EnrichedPerformance(
     val audience: Int,
     val play: Play,
 
-    // TODO: 2025.01.20 lateinit primitive type
     var amount: Int = 0,
     var volumeCredits: Int = 0
 )
 
-fun statement(invoice: Invoice, plays: Map<String, Play>): String {
-    fun playFor(performance: Performance) = plays[performance.playID]!!
+fun createStatementData(invoice: Invoice, plays: Map<String, Play>): StatementData {
+    fun enrichPerformance(performance: Performance): EnrichedPerformance {
+        fun playFor(performance: Performance) = plays[performance.playID]!!
 
-    fun amountFor(performance: EnrichedPerformance): Int {
-        var result: Int
+        fun amountFor(performance: EnrichedPerformance): Int {
+            var result: Int
 
-        when (performance.play.type) {
-            "tragedy" -> { // 비극
-                result = 40000
-                if (performance.audience > 30) {
-                    result += 1000 * (performance.audience - 30)
+            when (performance.play.type) {
+                "tragedy" -> { // 비극
+                    result = 40000
+                    if (performance.audience > 30) {
+                        result += 1000 * (performance.audience - 30)
+                    }
+                }
+
+                "comedy" -> { // 희극
+                    result = 30000
+                    if (performance.audience > 20) {
+                        result += 10000 + 500 * (performance.audience - 20)
+                    }
+                    result += 300 * performance.audience
+                }
+
+                else -> {
+                    throw IllegalArgumentException("알 수 없는 장르: ${performance.play.type}")
                 }
             }
-
-            "comedy" -> { // 희극
-                result = 30000
-                if (performance.audience > 20) {
-                    result += 10000 + 500 * (performance.audience - 20)
-                }
-                result += 300 * performance.audience
-            }
-
-            else -> {
-                throw IllegalArgumentException("알 수 없는 장르: ${performance.play.type}")
-            }
+            return result
         }
-        return result
-    }
 
-    fun volumeCreditsFor(performance: EnrichedPerformance): Int {
-        var result = 0
-        result += maxOf(performance.audience - 30, 0)
-        if ("comedy" == performance.play.type) result += performance.audience / 5
+        fun volumeCreditsFor(performance: EnrichedPerformance): Int {
+            var result = 0
+            result += maxOf(performance.audience - 30, 0)
+            if ("comedy" == performance.play.type) result += performance.audience / 5
 
-        return result
+            return result
+        }
+
+        // TODO: 2025.01.20
+        return EnrichedPerformance(performance.playID, performance.audience, playFor(performance)).apply {
+            amount = amountFor(this)
+            volumeCredits = volumeCreditsFor(this)
+        }
     }
 
     fun totalAmount(data: StatementData): Int {
@@ -65,20 +72,14 @@ fun statement(invoice: Invoice, plays: Map<String, Play>): String {
         return data.performances.fold(0) { total, p -> total + p.volumeCredits }
     }
 
-    fun enrichPerformance(performance: Performance): EnrichedPerformance {
-        // TODO: 2025.01.20
-        return EnrichedPerformance(performance.playID, performance.audience, playFor(performance)).apply {
-            amount = amountFor(this)
-            volumeCredits = volumeCreditsFor(this)
-        }
-    }
-
-    // TODO: 2025.01.20 apply? this?
-    val statementData = StatementData(invoice.customer, invoice.performances.map { enrichPerformance(it) }).apply {
+    return StatementData(invoice.customer, invoice.performances.map { enrichPerformance(it) }).apply {
         totalAmount = totalAmount(this)
         totalVolumeCredits = totalVolumeCredits(this)
     }
-    return renderPlainText(statementData, plays)
+}
+
+fun statement(invoice: Invoice, plays: Map<String, Play>):String  {
+    return renderPlainText(createStatementData(invoice, plays), plays)
 }
 
 fun renderPlainText(data: StatementData, plays: Map<String, Play>): String {
