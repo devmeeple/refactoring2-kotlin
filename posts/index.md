@@ -77,6 +77,13 @@
 소프트웨어의 궁극적인 가치 '변화'에 초점을 둔 최선의 선택이 '모듈화'인 것 같다. 사람마다 읽는 속도, 환경이 달라 '최소한'의 단위도 모두 다르겠지만, 개인이 허용할 수 있는 최소한으로 나눠야
 '이해'에 사용되는 비용이 줄어들지 않을까? 고민해 볼 문제다. 기준과 균형의 줄다기는 이미 시작됐다.
 
+## 1.8 다형성을 활용해 계산 코드 재구성하기(Reorganizing the Calculations by Type)
+
+'다형성을 활용해 계산 코드를 재구성하기'를 떠올렸을 때 `class`가 떠올랐다. 하지만 언어에 따라 `class`를 지원하지 않기도 하고, 자주 사용하지 않기도 한다. `Type`을 사용한다고 떠올리면 조금 
+더 보편적인 의견에 다가갈 수 있지 않을까?
+
+- 조건부 로직을 다형성으로 바꾸기(Replace Conditional with Polymorphism)
+
 **<참고 자료>**
 
 - [Kotlin Docs 'Aggregate operations'](https://kotlinlang.org/docs/collection-aggregate.html)
