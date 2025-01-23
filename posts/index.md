@@ -84,6 +84,30 @@
 
 - 조건부 로직을 다형성으로 바꾸기(Replace Conditional with Polymorphism)
 
+### 1.8.1 공연료 계산기 만들기
+
+> 6.5 함수 선언 바꾸기(Change Function Declaration)
+
+- 67, 모든 데이터 변환을 한 곳에서 수행 할 수 있어서 코드가 더욱 명확해진다.
+
+### 1.8.2 함수들을 계산기로 옮기기
+
+- 8.1 함수 옮기기(Move Function)
+- 6.2 함수를 인라인(Inline Function)
+
+## 1.8.3 공연료 계산기를 다형성 버전으로 만들기(Making the Performance Calculator Polymorphic)
+
+- 12.6 타입 코드를 서브스클래스로 바꾸기(Replace Type Code with Subclasses)
+- 11.8 생성자를 팩터리 함수로 바꾸기(Replace Constructor with Factory Function)
+
+> Do you Want to Build a Snowman?
+
+`Kotlin`은 봉인되어 있다. 개발자는 상속을 위해 문을 열어야 한다. `open`이라는 열쇠가 없다면 문은 여전히 닫혀 있다.
+하위 클래스가 상위 클래스를 상속받아도 전부를 취할 수 없다. 필요한 것은 명확히 열고, 불필요한 것은 닫아야 한다.
+
+모든 것을 허용하지 않는 언어 `Kotlin`. 돌다리 두드리듯, 허락을 구해야 한다. 불편함이 아닌 배려는 아닐까?
+의도를 전달하자. 의도가 없는 코드는 길을 금세 잃는다.
+
 **<참고 자료>**
 
 - [Kotlin Docs 'Aggregate operations'](https://kotlinlang.org/docs/collection-aggregate.html)
