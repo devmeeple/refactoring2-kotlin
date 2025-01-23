@@ -67,6 +67,11 @@
 
 - 타입 변환, 초깃값
 
+**<참고 자료>**
+
+- [Kotlin Docs 'Aggregate operations'](https://kotlinlang.org/docs/collection-aggregate.html)
+- [Baeldung 'Difference Between fold and reduce in Kotlin'](https://www.baeldung.com/kotlin/fold-vs-reduce)
+
 # 세 번째 발자국(2025-01-23)
 
 ## 1.7 중간 점검: 두 파일(과 단계)로 분리됨
@@ -95,7 +100,7 @@
 - 8.1 함수 옮기기(Move Function)
 - 6.2 함수를 인라인(Inline Function)
 
-## 1.8.3 공연료 계산기를 다형성 버전으로 만들기(Making the Performance Calculator Polymorphic)
+### 1.8.3 공연료 계산기를 다형성 버전으로 만들기(Making the Performance Calculator Polymorphic)
 
 - 12.6 타입 코드를 서브스클래스로 바꾸기(Replace Type Code with Subclasses)
 - 11.8 생성자를 팩터리 함수로 바꾸기(Replace Constructor with Factory Function)
@@ -108,7 +113,14 @@
 모든 것을 허용하지 않는 언어 `Kotlin`. 돌다리 두드리듯, 허락을 구해야 한다. 불편함이 아닌 배려는 아닐까?
 의도를 전달하자. 의도가 없는 코드는 길을 금세 잃는다.
 
-**<참고 자료>**
+## 1.10 마치며
 
-- [Kotlin Docs 'Aggregate operations'](https://kotlinlang.org/docs/collection-aggregate.html)
-- [Baeldung 'Difference Between fold and reduce in Kotlin'](https://www.baeldung.com/kotlin/fold-vs-reduce)
+> 좋은 코드를 가늠하는 확실한 방법은 '얼마나 수정하기 쉬운가'다.
+
+개발자는 성장에 목마른 나그네다. 우리는 늘 묻는다. '좋은 코드란 무엇인가' 그러나 '좋다'는 인간의 사고와 경험 속에서 흔들린다.
+정답이 없다. 마치 짬짜면 같다. 모두가 다른 맛을 원하고, 다른 것을 선택한다.
+
+내가 생각하는 '좋음'은 다음과 같다. 본질은 변화다. 소프트웨어의 궁극적인 가치를 위해 변화에 유연한 코드를 작성하는 개발자가 '좋은'에 부합한다 생각한다.
+팀이 허용할 수 있는 범위에서, 개인이 정한 기준에 따라 변화를 수용할 수 있는지를 반문하자.
+
+'좋음'은 모두 다르다. 다름을 인정하고, 존중하며, 우리의 기준을 나누는 것이 리팩터링의 본질이라고 생각한다. 변화에 유연한 코드, 그것이 좋은 코드다.
