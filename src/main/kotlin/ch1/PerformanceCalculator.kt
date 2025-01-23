@@ -1,16 +1,11 @@
 package ch1
 
 open class PerformanceCalculator(val performance: Performance, var play: Play) {
-    fun amount(): Int {
+    open fun amount(): Int {
         var result: Int
 
         when (this.play.type) {
-            "tragedy" -> { // 비극
-                result = 40000
-                if (this.performance.audience > 30) {
-                    result += 1000 * (this.performance.audience - 30)
-                }
-            }
+            "tragedy" -> throw Error("오류 발생")
 
             "comedy" -> { // 희극
                 result = 30000
@@ -37,6 +32,14 @@ open class PerformanceCalculator(val performance: Performance, var play: Play) {
     }
 }
 
-class TragedyCalculator(performance: Performance, play: Play): PerformanceCalculator(performance, play) {}
+class TragedyCalculator(performance: Performance, play: Play): PerformanceCalculator(performance, play) {
+    override fun amount(): Int {
+        var result = 40000
+        if (this.performance.audience > 30) {
+            result += 1000 * (this.performance.audience - 30)
+        }
+        return result
+    }
+}
 
 class ComedyCalculator(performance: Performance, play: Play): PerformanceCalculator(performance, play) {}
