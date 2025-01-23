@@ -3,30 +3,8 @@ package ch1
 fun createStatementData(invoice: Invoice, plays: Map<String, Play>): StatementData {
     fun playFor(performance: Performance) = plays[performance.playID]!!
 
-    fun amountFor(performance: EnrichedPerformance): Int {
-        var result: Int
-
-        when (performance.play.type) {
-            "tragedy" -> { // 비극
-                result = 40000
-                if (performance.audience > 30) {
-                    result += 1000 * (performance.audience - 30)
-                }
-            }
-
-            "comedy" -> { // 희극
-                result = 30000
-                if (performance.audience > 20) {
-                    result += 10000 + 500 * (performance.audience - 20)
-                }
-                result += 300 * performance.audience
-            }
-
-            else -> {
-                throw IllegalArgumentException("알 수 없는 장르: ${performance.play.type}")
-            }
-        }
-        return result
+    fun amountFor(performance: Performance): Int {
+        return PerformanceCalculator(performance, playFor(performance)).amount()
     }
 
     fun volumeCreditsFor(performance: EnrichedPerformance): Int {
@@ -41,8 +19,8 @@ fun createStatementData(invoice: Invoice, plays: Map<String, Play>): StatementDa
         val calculator = PerformanceCalculator(performance, playFor(performance))
 
         return EnrichedPerformance(performance.playID, performance.audience, calculator.play).apply {
-            amount = amountFor(this)
-            volumeCredits = volumeCreditsFor(this)
+            amount = calculator.amount()
+            volumeCredits = calculator.volumeCredits()
         }
     }
 
