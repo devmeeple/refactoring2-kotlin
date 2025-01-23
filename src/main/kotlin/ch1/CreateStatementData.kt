@@ -3,14 +3,6 @@ package ch1
 fun createStatementData(invoice: Invoice, plays: Map<String, Play>): StatementData {
     fun playFor(performance: Performance) = plays[performance.playID]!!
 
-    fun amountFor(performance: Performance): Int {
-        return PerformanceCalculator(performance, playFor(performance)).amount()
-    }
-
-    fun volumeCreditsFor(performance: Performance): Int {
-        return PerformanceCalculator(performance, playFor(performance)).volumeCredits()
-    }
-
     fun enrichPerformance(performance: Performance): EnrichedPerformance {
         val calculator = PerformanceCalculator(performance, playFor(performance))
 
