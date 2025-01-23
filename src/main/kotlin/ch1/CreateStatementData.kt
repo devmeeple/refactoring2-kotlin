@@ -1,44 +1,46 @@
 package ch1
 
 fun createStatementData(invoice: Invoice, plays: Map<String, Play>): StatementData {
-    fun enrichPerformance(performance: Performance): EnrichedPerformance {
-        fun playFor(performance: Performance) = plays[performance.playID]!!
+    fun playFor(performance: Performance) = plays[performance.playID]!!
 
-        fun amountFor(performance: EnrichedPerformance): Int {
-            var result: Int
+    fun amountFor(performance: EnrichedPerformance): Int {
+        var result: Int
 
-            when (performance.play.type) {
-                "tragedy" -> { // 비극
-                    result = 40000
-                    if (performance.audience > 30) {
-                        result += 1000 * (performance.audience - 30)
-                    }
-                }
-
-                "comedy" -> { // 희극
-                    result = 30000
-                    if (performance.audience > 20) {
-                        result += 10000 + 500 * (performance.audience - 20)
-                    }
-                    result += 300 * performance.audience
-                }
-
-                else -> {
-                    throw IllegalArgumentException("알 수 없는 장르: ${performance.play.type}")
+        when (performance.play.type) {
+            "tragedy" -> { // 비극
+                result = 40000
+                if (performance.audience > 30) {
+                    result += 1000 * (performance.audience - 30)
                 }
             }
-            return result
+
+            "comedy" -> { // 희극
+                result = 30000
+                if (performance.audience > 20) {
+                    result += 10000 + 500 * (performance.audience - 20)
+                }
+                result += 300 * performance.audience
+            }
+
+            else -> {
+                throw IllegalArgumentException("알 수 없는 장르: ${performance.play.type}")
+            }
         }
+        return result
+    }
 
-        fun volumeCreditsFor(performance: EnrichedPerformance): Int {
-            var result = 0
-            result += maxOf(performance.audience - 30, 0)
-            if ("comedy" == performance.play.type) result += performance.audience / 5
+    fun volumeCreditsFor(performance: EnrichedPerformance): Int {
+        var result = 0
+        result += maxOf(performance.audience - 30, 0)
+        if ("comedy" == performance.play.type) result += performance.audience / 5
 
-            return result
-        }
+        return result
+    }
 
-        return EnrichedPerformance(performance.playID, performance.audience, playFor(performance)).apply {
+    fun enrichPerformance(performance: Performance): EnrichedPerformance {
+        val calculator = PerformanceCalculator(performance, playFor(performance))
+
+        return EnrichedPerformance(performance.playID, performance.audience, calculator.play).apply {
             amount = amountFor(this)
             volumeCredits = volumeCreditsFor(this)
         }
