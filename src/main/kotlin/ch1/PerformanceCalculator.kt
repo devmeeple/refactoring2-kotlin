@@ -1,6 +1,6 @@
 package ch1
 
-class PerformanceCalculator(val performance: Performance, var play: Play) {
+open class PerformanceCalculator(val performance: Performance, var play: Play) {
     fun amount(): Int {
         var result: Int
 
@@ -36,3 +36,7 @@ class PerformanceCalculator(val performance: Performance, var play: Play) {
         return result
     }
 }
+
+class TragedyCalculator(performance: Performance, play: Play): PerformanceCalculator(performance, play) {}
+
+class ComedyCalculator(performance: Performance, play: Play): PerformanceCalculator(performance, play) {}
