@@ -2,24 +2,8 @@ package ch1
 
 open class PerformanceCalculator(val performance: Performance, var play: Play) {
     open fun amount(): Int {
-        var result: Int
-
-        when (this.play.type) {
-            "tragedy" -> throw Error("오류 발생")
-
-            "comedy" -> { // 희극
-                result = 30000
-                if (this.performance.audience > 20) {
-                    result += 10000 + 500 * (this.performance.audience - 20)
-                }
-                result += 300 * this.performance.audience
-            }
-
-            else -> {
-                throw IllegalArgumentException("알 수 없는 장르: ${this.play.type}")
-            }
-        }
-        return result
+        // TODO: 2025.01.23 
+        throw NotImplementedError("서브클래스에서 처리하도록 설계되었습니다.")
     }
 
     fun volumeCredits(): Int {
