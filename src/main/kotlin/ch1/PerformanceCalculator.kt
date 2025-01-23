@@ -2,17 +2,12 @@ package ch1
 
 open class PerformanceCalculator(val performance: Performance, var play: Play) {
     open fun amount(): Int {
-        // TODO: 2025.01.23 
+        // TODO: 2025.01.23
         throw NotImplementedError("서브클래스에서 처리하도록 설계되었습니다.")
     }
 
-    fun volumeCredits(): Int {
-        var result = 0
-        result += maxOf(this.performance.audience - 30, 0)
-        if ("comedy" == this.play.type)
-            result += this.performance.audience / 5
-
-        return result
+    open fun volumeCredits(): Int {
+        return maxOf(this.performance.audience - 30, 0)
     }
 }
 
@@ -34,5 +29,9 @@ class ComedyCalculator(performance: Performance, play: Play): PerformanceCalcula
         }
         result += 300 * this.performance.audience
         return result
+    }
+
+    override fun volumeCredits(): Int {
+        return super.volumeCredits() + (this.performance.audience / 5)
     }
 }
