@@ -26,4 +26,13 @@ class PerformanceCalculator(val performance: Performance, var play: Play) {
         }
         return result
     }
+
+    fun volumeCredits(): Int {
+        var result = 0
+        result += maxOf(this.performance.audience - 30, 0)
+        if ("comedy" == this.play.type)
+            result += this.performance.audience / 5
+
+        return result
+    }
 }

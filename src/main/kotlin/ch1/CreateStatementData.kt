@@ -7,12 +7,8 @@ fun createStatementData(invoice: Invoice, plays: Map<String, Play>): StatementDa
         return PerformanceCalculator(performance, playFor(performance)).amount()
     }
 
-    fun volumeCreditsFor(performance: EnrichedPerformance): Int {
-        var result = 0
-        result += maxOf(performance.audience - 30, 0)
-        if ("comedy" == performance.play.type) result += performance.audience / 5
-
-        return result
+    fun volumeCreditsFor(performance: Performance): Int {
+        return PerformanceCalculator(performance, playFor(performance)).volumeCredits()
     }
 
     fun enrichPerformance(performance: Performance): EnrichedPerformance {
