@@ -90,3 +90,12 @@
 <참고 자료>
 
 - [Martin Fowler 'An example of preparatory refactoring'](https://martinfowler.com/articles/preparatory-refactoring-example.html)
+
+**이해를 위한 리팩터링: 코드를 이해하기 쉽게 만들기**
+
+- **리팩터링은 끝없는 탐구다. 시도해야 기회를 발견한다.**
+- 코드를 수정하려면 먼저 그 코드가 하는 일을 파악해야 한다.
+- 워드 커닝햄(Ward Cunningham)이 말하길, 리팩터링하면 머리로 이해한 것을 코드에 옮겨 담을 수 있다.
+- 이해를 위한 리팩터링(Comprehension Refactoring)
+- 랄프 존슨(Ralph Johnson)은 이런 초기 단계의 리팩터링을 밖을 잘 내다보기 위한 창문 닦기에 비유한다.
+- 코드를 분석할 때 리팩터링을 해보면, 그렇지 않았더라면 도달하지 못했을 더 깊은 수준까지 이해하게 된다.
