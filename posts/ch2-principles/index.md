@@ -72,3 +72,21 @@
 <참고 자료>
 
 - [Martin Fowler 'Design Stamina Hypothesis'](https://martinfowler.com/bliki/DesignStaminaHypothesis.html)
+
+## 2.4 언제 리팩터링해야 할까?
+
+> 3의 법칙 <출처: Don Roberts>
+> 
+> 1. 처음에는 그냥 한다.
+> 2. 비슷한 일을 두 번째로 하게 되면(중복이 생겼다는 사실에 당황스럽겠지만), 일단 계속 진행한다.
+> 3. 비슷한 일을 세 번째 하게 되면 리팩터링한다.
+
+**준비를 위한 리팩터링: 기능을 쉽게 추가하게 만들기**
+
+- **말이 아닌, 변화에 유연하게 대응할 수 있는 '상황'을 만들자.**
+- 리팩터링하기 가장 좋은 시점은 코드베이스에 기능을 새로 추가하기 직전이다. 이 시점에 현재 코드를 살펴보면서, 구조를 살짝 바꾸며 다른 작업을 하기가 훨씬 쉬워질 만한 부분을 찾는다.
+- 오류를 일으키는 코드가 세 곳에 복제되어 퍼져 있다면, 우선 한 곳으로 합치는 편이 작업하기에 훨씬 편하다. 또는 질의 코드에 섞여 있는 갱신 로직을 분리하면 두 작업이 꼬여서 생기는 오류를 크게 줄일 수 있다.
+
+<참고 자료>
+
+- [Martin Fowler 'An example of preparatory refactoring'](https://martinfowler.com/articles/preparatory-refactoring-example.html)
